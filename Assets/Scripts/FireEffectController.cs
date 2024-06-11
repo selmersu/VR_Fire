@@ -88,7 +88,7 @@ public class FireEffectController : MonoBehaviour
 
     public void GetParticleSystem(GameObject obj)
     {
-        // 使用 GetComponent<ParticleSystem>() 来获取传入的 GameObject 的 ParticleSystem 组件
+        //获取传入的 GameObject 的 ParticleSystem 组件
         ParticleSystem fireParticleSystem = obj.GetComponent<ParticleSystem>();
 
         if (fireParticleSystem != null)
@@ -103,12 +103,12 @@ public class FireEffectController : MonoBehaviour
         BoxCollider boxCollider = obj.GetComponent<BoxCollider>();
         if (boxCollider != null)
         {
-            //调用 CloseCollider 方法
+            //如果获取到了 BoxCollider 组件，调用 CloseCollider 方法
             CloseCollider(boxCollider);
         }
     }
 
-    // 在延迟后禁用 Box Collider
+    // 在延迟后禁用 BoxCollider
     private IEnumerator DisableColliderAfterDelay(BoxCollider boxCollider, float delay)
     {
         yield return new WaitForSeconds(delay);

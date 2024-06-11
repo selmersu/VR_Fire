@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,15 +18,14 @@ public class GameManager : MonoBehaviour
         game = this;    //指定单例
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // 重新开始游戏
+    public void RestartGame()
     {
-        
-    }
+        // 获取当前活动场景的名称
+        string currentSceneName = SceneManager.GetActiveScene().name;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // 重新加载当前场景
+        SceneManager.LoadScene(currentSceneName);
+        Time.timeScale = 1f; // 恢复游戏
     }
 }

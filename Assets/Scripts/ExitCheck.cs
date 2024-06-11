@@ -22,6 +22,7 @@ public class ExitCheck : MonoBehaviour
         if (other.CompareTag("Player"))     // 检查进入触发器的对象是否是你想要检测的对象
         {
             isInside = true;
+            Time.timeScale = 0f; // 暂停游戏
         }
 
     }
