@@ -8,11 +8,16 @@ public class FireEffectController : MonoBehaviour
     
     public XRRayInteractor rayInteractor;
 
-    private ParticleSystem fireParticleSystem;    // 火焰粒子系统组件
+    private ParticleSystem fireParticleSystem;    // 火焰粒子系统组件(从RM中获取)
     private bool isConfigured = false;            // 是否已经对粒子系统进行了配置
 
     private float extinguishDuration = 5f;    // 灭火过程持续的时间
     private float timer;    // 内部计时器
+
+    public void Start()
+    {
+        rayInteractor = GetComponent<XRRayInteractor>();    //获取XR Ray Interactor组件
+    }
 
     // 开始灭火过程
     public void ExtinguishFire(ParticleSystem fire)

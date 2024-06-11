@@ -6,7 +6,11 @@ public class ExitCheck : MonoBehaviour
     public Collider checkCollider;      //´¥·¢Æ÷
     public Canvas canvas;
 
- 
+    private void Start()
+    {
+        checkCollider = GetComponent<Collider>();
+    }
+
     void Update()
     {
         canvas.gameObject.SetActive(isInside);

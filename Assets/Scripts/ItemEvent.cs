@@ -5,7 +5,7 @@ using UnityEngine.XR;
 
 public class ItemEvent : MonoBehaviour
 {
-    public FireExtinguisherUsage extinguisherUsage;
+    
 
     public GameObject feModel;  //Ãð»ðÆ÷Ä£ÐÍ
 

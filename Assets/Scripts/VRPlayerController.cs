@@ -11,7 +11,6 @@ using Unity.XR.PXR;
 public class VRPlayerController : MonoBehaviour
 {
     public CharacterController cc;  //角色控制器
-    public ParticleSystem[] particleSystems;
 
     public float MoveSpeed;         //玩家移动速度
     public Vector2 MoveDire;        //玩家移动数值
@@ -21,6 +20,8 @@ public class VRPlayerController : MonoBehaviour
     public Vector2 rotateDirection; //玩家旋转方向
 
     public bool isVR = false;       //判断是否在VR设备中运行
+
+    [Header("Test")]
     public ItemEvent itemEvent;
     
 

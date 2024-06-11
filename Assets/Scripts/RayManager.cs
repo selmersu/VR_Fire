@@ -9,26 +9,31 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class RayManager : MonoBehaviour
 {
     public XRRayInteractor rayInteractor;
-    public ItemEvent itemEvent;
-    public FireExtinguisherUsage extinguisherUsage;
+    public ItemEvent itemEvent;   
     public FireEffectController fireEffectController;
+
+    public ParticleSystem ps; // 粒子系统
 
     private InputDevice rightController;
     private InputDevice leftController;
-
-    public ParticleSystem ps; // 粒子系统
+    
     public float longPressDuration = 1f; // 长按触发的持续时间
 
     private bool isLongPressing = false; // 是否正在长按
     private float pressStartTime; // 长按开始时间
     private bool isFireActivated = false; // 是否已经激活函数
 
+    [Header("Test")]
     public TMP_Text debugText; // TextMeshPro 组件的引用
-    public ParticleSystem ps1;
-    public GameObject obj;
+    public ParticleSystem ps_test;
+    public GameObject obj_test;
 
     private void Start()
     {
+        rayInteractor = GetComponent<XRRayInteractor>();
+        itemEvent = GetComponent<ItemEvent>();
+        fireEffectController = GetComponent<FireEffectController>();
+
         rightController = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
         leftController = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
         
@@ -36,10 +41,12 @@ public class RayManager : MonoBehaviour
 
     void Update()
     {
+        FESpray();  //(LT)控制灭火器的喷射
+        //test
         if (Input.GetKeyDown(KeyCode.O))
         {
-            fireEffectController.ExtinguishFire(ps1);
-            fireEffectController.GetBoXCollider(obj);
+            fireEffectController.ExtinguishFire(ps_test);
+            fireEffectController.GetBoXCollider(obj_test);
         }
 
             if (rightController.isValid)
@@ -50,24 +57,9 @@ public class RayManager : MonoBehaviour
                 HandleRaycast();
             }
         }
-        if (itemEvent.isPicked)
+
+        /*if (itemEvent.isPicked)
         {
-            /*if (!isFireActivated)
-            {
-                if (Input.GetKey(KeyCode.O))
-                {
-                    ps.Play();
-                    isFireActivated = true;
-                }
-            }
-            else
-            {
-                ps.Stop();  
-                isFireActivated = false;
-            }*/
-
-            
-
             // 检测左手柄 trigger 的长按
             if (CheckLongPressLT() == true)
             {
@@ -92,9 +84,34 @@ public class RayManager : MonoBehaviour
             {
                 itemEvent.HideFE();
             }
-        }
+        }*/
+    }
 
-        
+    //灭火器喷射
+    void FESpray()
+    {
+        if (itemEvent.isPicked)
+        {
+            // 检测左手柄 trigger 的长按
+            if (CheckLongPressLT())
+            {
+                // 一次长按只调用一次 GetFire 函数
+                if (!isFireActivated)
+                {
+                    GetFire();
+                    isFireActivated = true;
+                }
+                ps.Play(); // 播放粒子效果
+            }
+            else
+            {
+                ps.Stop(); // 停止粒子效果
+                ps.Clear();
+                ps.Simulate(0f, true, true); // 重新模拟粒子系统，将其重置到初始状态
+
+                isFireActivated = false; // 重置触发 GetFire 函数的标志
+            }
+        }
     }
 
     // 检测左手柄 trigger 的长按
