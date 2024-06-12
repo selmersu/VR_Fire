@@ -5,27 +5,49 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public AStarPathFind pathFinder;
 
-    public static GameManager game; //创建一个单例
-
-    public bool isPicked;           //判断是否捡起
-
-    public GameObject Player;       //获取玩家对象
-
-
-    private void Awake()
+    // 更换目标方法
+    public void ChangeTarget(Transform newTarget)
     {
-        game = this;    //指定单例
+        pathFinder.SetTarget(newTarget);
     }
+
+
+    public Transform GetNewTarget()
+    {
+        // 实现获取新目标的逻辑
+        GameObject newTargetObject = GameObject.FindWithTag("Extin");
+        if (newTargetObject != null)
+        {
+            return newTargetObject.transform;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public Transform GetExitTarget()
+    {
+        // 实现获取出口目标的逻辑
+        GameObject newTargetObject = GameObject.FindWithTag("Exit");
+        if (newTargetObject != null)
+        {
+            return newTargetObject.transform;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
 
     // 重新开始游戏
     public void RestartGame()
     {
-        // 获取当前活动场景的名称
-        string currentSceneName = SceneManager.GetActiveScene().name;
+        string currentSceneName = SceneManager.GetActiveScene().name;    // 获取当前活动场景的名称
 
-        // 重新加载当前场景
-        SceneManager.LoadScene(currentSceneName);
-        Time.timeScale = 1f; // 恢复游戏
+        SceneManager.LoadScene(currentSceneName);   // 重新加载当前场景
+        Time.timeScale = 1f;    // 恢复游戏
     }
 }

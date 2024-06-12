@@ -23,6 +23,7 @@ public class VRPlayerController : MonoBehaviour
 
     [Header("Test")]
     public ItemEvent itemEvent;
+    public GameManager gameManager;
     
 
 
@@ -53,12 +54,21 @@ public class VRPlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.V))
             {
                 itemEvent.ShowFE();
-                
             }
             if (Input.GetKeyDown(KeyCode.L))
             {
                 itemEvent.HideFE();
-                
+            }
+
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                Transform newTarget = gameManager.GetNewTarget();   // 获取新的目标
+                gameManager.ChangeTarget(newTarget);    // 更改目标
+            }
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                Transform newTarget = gameManager.GetExitTarget();   // 获取新的目标
+                gameManager.ChangeTarget(newTarget);    // 更改目标
             }
 
         }
