@@ -11,8 +11,8 @@ public class Menu : MonoBehaviour
     public GameObject menu;                     // 菜单UI的游戏对象
     private InputDevice leftHandController;     // 左手控制器
     private bool isMenuOpen = false;            // 默认菜单关闭
+    private bool isMenuButtonPressed = false;   // 用于检测菜单按钮是否已按下
 
-    
     public AudioSource[] audioSources;          // 游戏中的音频源
     public ParticleSystem[] particleSystems;    // 游戏中的粒子系统
 
@@ -42,9 +42,17 @@ public class Menu : MonoBehaviour
             // VR模式
             if (leftHandController.isValid)
             {
-                if (leftHandController.TryGetFeatureValue(CommonUsages.menuButton, out bool menuPressed) && menuPressed)
+                if (leftHandController.TryGetFeatureValue(CommonUsages.menuButton, out bool menuPressed))
                 {
-                    ToggleMenu();
+                    if (menuPressed && !isMenuButtonPressed)
+                    {
+                        isMenuButtonPressed = true;
+                        ToggleMenu();
+                    }
+                    else if (!menuPressed)
+                    {
+                        isMenuButtonPressed = false;
+                    }
                 }
             }
         }
@@ -69,8 +77,6 @@ public class Menu : MonoBehaviour
     {
         Time.timeScale = 0f; // 暂停游戏
 
-        
-
         // 停止声音
         foreach (AudioSource audio in audioSources)
         {
@@ -87,8 +93,6 @@ public class Menu : MonoBehaviour
     void ResumeGame()
     {
         Time.timeScale = 1f; // 恢复游戏
-
-        
 
         // 恢复声音
         foreach (AudioSource audio in audioSources)

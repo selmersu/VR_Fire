@@ -8,6 +8,7 @@ public class FindEXCheck : MonoBehaviour
     public ItemEvent itemEvent;
 
     public Collider checkCollider;  //触发器
+    public Canvas canvas;
     public bool isInside;
 
     private void Start()
@@ -20,16 +21,20 @@ public class FindEXCheck : MonoBehaviour
         //
         if (!itemEvent.isPicked)
         {
+            canvas.gameObject.SetActive(isInside);
             if (isInside)   //没有灭火器时导航到灭火器前
             {
+                
                 Transform newTarget = gameManager.GetNewTarget();   // 获取新的目标
                 gameManager.ChangeTarget(newTarget);    // 更改目标
+                
             }
         }
         else
         {
             Transform newTarget = gameManager.GetExitTarget();   // 获取新的目标
             gameManager.ChangeTarget(newTarget);    // 更改目标
+            canvas.gameObject.SetActive(false);
         }
     }
 
@@ -51,4 +56,6 @@ public class FindEXCheck : MonoBehaviour
             isInside = false;
         }
     }
+
+
 }

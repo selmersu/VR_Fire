@@ -7,7 +7,8 @@ public class ItemEvent : MonoBehaviour
 {
     
 
-    public GameObject feModel;  //灭火器模型
+    public GameObject feModel;  //灭火器模型(手中)
+    public GameObject fireExtinguisher;
 
     public bool isPicked = false;           //判断是否被捡起
     
@@ -36,6 +37,7 @@ public class ItemEvent : MonoBehaviour
         {
             feModel.SetActive(true);
             isPicked = true;
+            fireExtinguisher.SetActive(false);
         }
         
     }
@@ -47,6 +49,7 @@ public class ItemEvent : MonoBehaviour
         {
             feModel.SetActive(false);
             isPicked=false;
+            fireExtinguisher.SetActive(true);
         }   
     }
 }
