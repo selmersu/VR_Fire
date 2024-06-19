@@ -13,6 +13,7 @@ public class RayManager : MonoBehaviour
     public FireEffectController fireEffectController;
 
     public ParticleSystem ps; // 粒子系统
+    public GameObject fe;
 
     private InputDevice rightController;
     private InputDevice leftController;
@@ -22,6 +23,8 @@ public class RayManager : MonoBehaviour
     private bool isLongPressing = false; // 是否正在长按
     private float pressStartTime; // 长按开始时间
     private bool isFireActivated = false; // 是否已经激活函数
+
+    
 
     [Header("Test")]
     public TMP_Text debugText; // TextMeshPro 组件的引用
@@ -41,7 +44,7 @@ public class RayManager : MonoBehaviour
 
     void Update()
     {
-        FESpray();  //(LT)控制灭火器的喷射
+        FESpray();  //(RT)控制灭火器的喷射
         //test
         if (Input.GetKeyDown(KeyCode.O))
         {
@@ -57,34 +60,6 @@ public class RayManager : MonoBehaviour
                 HandleRaycast();
             }
         }
-
-        /*if (itemEvent.isPicked)
-        {
-            // 检测左手柄 trigger 的长按
-            if (CheckLongPressLT() == true)
-            {
-                // 一次长按只调用一次 GetFire 函数
-                if (!isFireActivated)
-                {
-                    GetFire();
-                    isFireActivated = true;
-                }
-                ps.Play();    // 播放粒子效果
-            }
-            else
-            {
-                ps.Stop();    // 停止粒子效果
-                ps.Clear();
-                ps.Simulate(0f, true, true); // 重新模拟粒子系统，将其重置到初始状态
-
-                isFireActivated = false;    // 重置触发 GetFire 函数的标志
-            }
-
-            if (rightController.TryGetFeatureValue(CommonUsages.primaryButton, out bool PrimaryPressed) && PrimaryPressed)
-            {
-                itemEvent.HideFE();
-            }
-        }*/
     }
 
     //灭火器喷射
@@ -93,7 +68,7 @@ public class RayManager : MonoBehaviour
         if (itemEvent.isPicked)
         {
             // 检测左手柄 trigger 的长按
-            if (CheckLongPressLT())
+            if (CheckLongPressRT())
             {
                 // 一次长按只调用一次 GetFire 函数
                 if (!isFireActivated)
@@ -115,9 +90,9 @@ public class RayManager : MonoBehaviour
     }
 
     // 检测左手柄 trigger 的长按
-    bool CheckLongPressLT()
+    bool CheckLongPressRT()
     {
-        if (leftController.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue) && triggerValue > 0.5f)
+        if (rightController.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue) && triggerValue > 0.5f)
         {
             if (!isLongPressing)
             {
@@ -177,6 +152,7 @@ public class RayManager : MonoBehaviour
                 // 检查标签是否为"Extin"
                 if (hitObject.CompareTag("Extin"))
                 {
+                    fe.SetActive(true);
                     if (itemEvent != null)
                     {
                         itemEvent.ShowFE();
@@ -185,6 +161,10 @@ public class RayManager : MonoBehaviour
                     {
                         Debug.LogWarning("itemEvent is not assigned.");
                     }
+                }
+                else
+                {
+                    fe.SetActive(false);
                 }
             }
         }

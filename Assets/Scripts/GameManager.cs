@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     // 重新开始游戏
     public void RestartGame()
     {
@@ -50,4 +49,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(currentSceneName);   // 重新加载当前场景
         Time.timeScale = 1f;    // 恢复游戏
     }
+
+
 }
