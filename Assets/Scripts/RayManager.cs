@@ -30,6 +30,7 @@ public class RayManager : MonoBehaviour
     public TMP_Text debugText; // TextMeshPro 组件的引用
     public ParticleSystem ps_test;
     public GameObject obj_test;
+    public NetworkController nc;
 
     private void Start()
     {
@@ -59,6 +60,8 @@ public class RayManager : MonoBehaviour
             {
                 HandleRaycast();
             }
+            
+            
         }
     }
 

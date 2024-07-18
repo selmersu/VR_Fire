@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public AStarPathFind pathFinder;
+    public NetworkController nc;
 
     // 更换目标方法
     public void ChangeTarget(Transform newTarget)
@@ -50,5 +51,5 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;    // 恢复游戏
     }
 
-
+    
 }

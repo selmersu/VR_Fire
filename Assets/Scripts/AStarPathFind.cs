@@ -44,17 +44,31 @@ public class AStarPathFind : MonoBehaviour
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-        CreateGrid();
+        grid = new Node[gridSizeX, gridSizeY]; // 初始化网格
+        CreateGrid(); // 创建节点
     }
 
     void Update()
     {
+        UpdateWalkableStatus();
         FindPath(player.position, target.position); // 每帧更新路径
+    }
+
+    void UpdateWalkableStatus()
+    {
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                Vector3 worldPoint = grid[x, y].worldPosition;
+                bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask)); // 实时检测节点是否可通行
+                grid[x, y].walkable = walkable;
+            }
+        }
     }
 
     void CreateGrid()
     {
-        grid = new Node[gridSizeX, gridSizeY];
         Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
 
         for (int x = 0; x < gridSizeX; x++)
@@ -68,7 +82,7 @@ public class AStarPathFind : MonoBehaviour
         }
     }
 
-    void FindPath(Vector3 startPos, Vector3 targetPos)
+    public void FindPath(Vector3 startPos, Vector3 targetPos)
     {
         Node startNode = NodeFromWorldPoint(startPos);
         Node targetNode = NodeFromWorldPoint(targetPos);
@@ -144,10 +158,7 @@ public class AStarPathFind : MonoBehaviour
         }
         lineRenderer.positionCount = pathPositions.Length;
         lineRenderer.SetPositions(pathPositions); // 设置Line Renderer的路径点
-
-
     }
-
 
     Node NodeFromWorldPoint(Vector3 worldPosition)
     {
@@ -200,5 +211,4 @@ public class AStarPathFind : MonoBehaviour
         target = newTarget;
         FindPath(player.position, target.position); // 设置新目标后重新计算路径
     }
-
 }

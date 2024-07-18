@@ -5,9 +5,6 @@ using UnityEngine.XR;
 using Unity.XR.PXR.Input;
 using Unity.XR.PXR;
 
-
-
-
 public class VRPlayerController : MonoBehaviour
 {
     public CharacterController cc;  //½ÇÉ«¿ØÖÆÆ÷
